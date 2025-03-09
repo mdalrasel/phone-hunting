@@ -9,8 +9,18 @@ const loadPhone = async (searchText) => {
 
 
 const displayPhones = phones => {
-    const phoneContainer =document.getElementById('phone-container') ;
-    phoneContainer.textContent=''
+    const phoneContainer = document.getElementById('phone-container');
+    phoneContainer.textContent = '';
+
+    const showAllContainerBtn = document.getElementById('showAllContainer');
+    if (phones.length > 9) {
+        showAllContainerBtn.classList.remove('hidden')
+    }
+    else {
+        showAllContainerBtn.classList.add('hidden')
+    }
+
+    phones = phones.slice(0, 9)
 
 
     phones.forEach(phone => {
@@ -29,15 +39,24 @@ const displayPhones = phones => {
                 <button class="text-white  font-bold bg-[#0D6EFD] px-4 py-2 rounded-lg cursor-pointer">Show Details</button>
             </div>
         </div>`;
-    phoneContainer.appendChild(phoneCard)
-    })
+        phoneContainer.appendChild(phoneCard)
+    });
+    toggleLoadingSpinner(false)
 }
 
-const handleSearch = ()=>{
+const handleSearch = () => {
+    toggleLoadingSpinner(true)
     const searchFiled = document.getElementById('search-filed');
-    const searchText =searchFiled.value;
-    // console.log(searchText)
+    const searchText = searchFiled.value;
     loadPhone(searchText)
 }
 
-// loadPhone()
+const toggleLoadingSpinner = (isLoading) => {
+    const loadingSpinner = document.getElementById('loading-spinner');
+    if (isLoading) {
+        loadingSpinner.classList.remove('hidden')
+    }
+    else {
+        loadingSpinner.classList.add('hidden')
+    }
+}
